@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
             return user.userId === receiver
         })
         if (user) {
+            console.log({ data });
             io.to(user.socketId).emit('receive-notification', data)
         }
     })
