@@ -10,12 +10,14 @@ io.on('connection', (socket) => {
 
     socket.on('new-user-add', (newUserId) => {
         // if user already added
-        if (!activeUsers.some(user => user.userId === newUserId)) {
-            activeUsers.push({
-                userId: newUserId,
-                socketId: socket.id
-            });
+        if (activeUsers.some(user => user.userId === newUserId)) {
+            const currentUserIdx = activeUsers.findIndex(user => user.userId === newUserId);
+            activeUsers.splice(currentUserIdx, 1);
         }
+        activeUsers.push({
+            userId: newUserId,
+            socketId: socket.id
+        });
         io.emit('get-users', activeUsers);
     })
 
